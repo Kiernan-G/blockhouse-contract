@@ -19,7 +19,7 @@ contract Bond is ReentrancyGuard{
     constructor(address[] memory _owners, IERC20 _acceptedToken){
         require(_owners.length > 0, "Need at least one owner.");
             for(uint256 i = 0; i < _owners.length; i++){
-                require(_owners[i] != address(0), "Owner address can't be 0");
+                require(_owners[i] != address(0), "Owner address can't be 0.");
                 owners.push(_owners[i]);
                 shares[_owners[i]] = 1;
                 totalShares = totalShares + 1;
@@ -29,11 +29,17 @@ contract Bond is ReentrancyGuard{
     }
 
     function deposit(uint256 _amount) external nonReentrant {
-
+        require(_amount > 0, "Amount must be greater than 0.");
+        acceptedToken.transferFrom(msg.sender, address(this), _amount);
+        emit Deposit(msg.sender, _amount);
     }
 
     function withdraw() external nonReentrant {
-
+        require(shares[msg.sender] > 0, "This address has no shares.");
+        uint256 balance = acceptedToken.balanceOf(address(this));
+        uint256 amount = (balance * shares[msg.sender]) / totalShares;
+        acceptedToken.transfer(msg.sender, amount);
+        emit Withdraw(msg.sender, amount);
     }
 
 }
