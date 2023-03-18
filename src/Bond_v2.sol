@@ -71,7 +71,7 @@ contract Bond_v2 is ERC20Snapshot, Ownable, ReentrancyGuard{
         totalYieldDeposited += _amount;
         emit YieldDeposited(msg.sender, _amount);
     }
-    
+
     function getClaimableYield(address _holder) public view returns (uint256) {
         uint256 holderBalance = balanceOf(_holder);
         uint256 totalClaimed = lastYieldClaimed[_holder];
@@ -86,7 +86,5 @@ contract Bond_v2 is ERC20Snapshot, Ownable, ReentrancyGuard{
         acceptedToken.transfer(msg.sender, yieldToClaim);
         emit YieldClaimed(msg.sender, yieldToClaim);
     }
-
-
 
 }
