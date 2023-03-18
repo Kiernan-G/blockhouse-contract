@@ -2,9 +2,10 @@
 
 pragma solidity ^0.8.0;
 
-import "lib/forge-std/src/interfaces/IERC20.sol";
+import "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
+import "lib/openzeppelin-contracts/contracts/security/ReentrancyGuard.sol";
 
-contract Bond {
+contract Bond is ReentrancyGuard{
 
     address[] public owners;
     mapping(address => uint256) public shares;
@@ -32,7 +33,7 @@ contract Bond {
     }
 
     function withdraw() external nonReentrant {
-        
+
     }
 
 }
